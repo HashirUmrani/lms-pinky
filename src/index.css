@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --radius-xl: var(--radius);
+}
+
+:root {
+  --background: #FAF7F8;
+  --foreground: #302832;
+  --card: #FFFFFF;
+  --card-foreground: #302832;
+  --muted: #F6EFF3;
+  --muted-foreground: #827780;
+  --border: #EEE3E9;
+  --input: #E8D9E1;
+  --ring: #C96E96;
+  --accent: #FCEAF1;
+  --accent-foreground: #91415F;
+  --primary: #C45183;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F3EDE3;
+  --secondary-foreground: #735D49;
+  --success: #64816B;
+  --warning: #A9824C;
+  --danger: #B66B62;
+  --radius: 0.8rem;
+  font-family: Inter, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+html { min-width: 320px; background: var(--background); scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--background); color: var(--foreground); }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+::selection { background: #F8DDE8; color: #743B56; }
+
+.soft-shadow { box-shadow: 0 2px 5px rgba(78, 43, 59, 0.035), 0 14px 34px rgba(78, 43, 59, 0.045); }
+.card-shadow { box-shadow: 0 1px 2px rgba(78, 43, 59, 0.035), 0 6px 20px rgba(78, 43, 59, 0.035); }
+.focus-ring { outline: none; }
+.focus-ring:focus-visible { outline: 2px solid #C96E96; outline-offset: 2px; }
+
+* { scrollbar-width: thin; scrollbar-color: #E6CCD8 transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #e1c8d1; border-radius: 999px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+@media print {
+  body { background: #fff; }
+  .print\:hidden { display: none !important; }
+}

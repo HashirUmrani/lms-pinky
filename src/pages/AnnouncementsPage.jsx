@@ -1,0 +1,31 @@
+import { useMemo, useState } from "react";
+import { Megaphone, CalendarDays, Pin, Search, BellRing, BookOpen, Building2, GraduationCap } from "lucide-react";
+import { Badge } from "../components/ui/badge";
+import { Card, CardContent } from "../components/ui/card";
+import { Input } from "../components/ui/input";
+
+const notices = [
+  { id: 1, category: "Examinations", title: "Seventh semester examination result notice", body: "The department has updated the result information for the seventh semester. Students are advised to review the notice board and verify their course details.", date: "01 Nov 2026", author: "Department of Software Engineering", pinned: true, tag: "Academic notice" },
+  { id: 2, category: "Department", title: "Final year project progress review", body: "Project groups should coordinate with their supervisors and prepare an updated progress report for the upcoming departmental review.", date: "30 Oct 2026", author: "FET Academic Office", pinned: true, tag: "Important" },
+  { id: 3, category: "Courses", title: "Artificial Intelligence learning material uploaded", body: "Lecture 09 notes and the supplementary reading list are now available in the virtual classroom for enrolled students.", date: "29 Oct 2026", author: "Course instructor", pinned: false, tag: "Learning update" },
+  { id: 4, category: "University", title: "Student support office timings", body: "The student facilitation desk is available on working days during regular university office hours for academic portal and registration assistance.", date: "27 Oct 2026", author: "Student Affairs Office", pinned: false, tag: "Campus update" },
+  { id: 5, category: "Courses", title: "Course registration verification", body: "Students should verify that their registered courses and credit hours are correct before the examination form submission period.", date: "25 Oct 2026", author: "Department office", pinned: false, tag: "Reminder" },
+];
+const categories = ["All updates", "Examinations", "Department", "Courses", "University"];
+
+export default function AnnouncementsPage() {
+  const [category, setCategory] = useState("All updates");
+  const [query, setQuery] = useState("");
+  const [read, setRead] = useState([]);
+  const filtered = useMemo(() => notices.filter((item) => (category === "All updates" || item.category === category) && `${item.title} ${item.body} ${item.author}`.toLowerCase().includes(query.toLowerCase())), [category, query]);
+  const markRead = (id) => setRead((current) => current.includes(id) ? current : [...current, id]);
+  const unread = notices.length - read.length;
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><Badge>STUDENT COMMUNICATION</Badge><h1 className="mt-2 text-[25px] font-semibold tracking-tight text-[#4a3e32]">Announcements</h1><p className="mt-1.5 text-sm text-[#9a9082]">Department notices, examination updates and university news.</p></div><div className="rounded-xl border border-[#eddee3] bg-white px-4 py-3"><p className="text-[10px] uppercase tracking-wide text-[#aba49a]">Unread notices</p><p className="mt-1 text-xl font-semibold text-[#86455c]">{unread}</p></div></div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div className="relative w-full sm:max-w-sm"><Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#ada59a]" /><Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search announcements..." className="pl-9" /></div><div className="flex flex-wrap gap-1.5">{categories.map((item) => <button key={item} onClick={() => setCategory(item)} className={`rounded-lg px-3 py-2 text-[11px] font-medium transition ${category === item ? "bg-[#f4eaee] text-[#86455c]" : "text-[#9a9082] hover:bg-white"}`}>{item}</button>)}</div></div>
+      <div className="space-y-3">{filtered.map((item) => <Card key={item.id} className={`overflow-hidden transition hover:shadow-[0_10px_24px_rgba(78,43,59,0.055)] ${!read.includes(item.id) ? "border-[#ecdce2]" : ""}`}><CardContent className="p-5"><div className="flex items-start gap-3"><span className={`flex size-10 shrink-0 items-center justify-center rounded-xl ${item.category === "Examinations" ? "bg-[#f4eaee] text-[#86455c]" : item.category === "Department" ? "bg-[#f3ede3] text-[#927653]" : item.category === "Courses" ? "bg-[#edf2eb] text-[#68806a]" : "bg-[#f4f3f1] text-[#8c8375]"}`}>{item.category === "Examinations" ? <GraduationCap className="size-[18px]" /> : item.category === "Courses" ? <BookOpen className="size-[18px]" /> : item.category === "University" ? <Building2 className="size-[18px]" /> : <Megaphone className="size-[18px]" />}</span><div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><h2 className="text-sm font-semibold text-[#673748]">{item.title}</h2>{item.pinned && <Pin className="size-3.5 text-[#987d58]" />}{!read.includes(item.id) && <span className="size-1.5 rounded-full bg-[#9a536d]" />}</div><div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-[#aaa49a]"><span>{item.author}</span><span className="inline-flex items-center gap-1"><CalendarDays className="size-3" />{item.date}</span></div><p className="mt-3 text-xs leading-6 text-[#8c8375]">{item.body}</p><div className="mt-3 flex items-center justify-between gap-3"><Badge variant={item.category === "Examinations" ? "info" : "secondary"}>{item.tag}</Badge><button onClick={() => markRead(item.id)} className="text-[11px] font-medium text-[#955069] hover:underline">{read.includes(item.id) ? "Marked as read" : "Mark as read"}</button></div></div></div></CardContent></Card>)}{filtered.length === 0 && <div className="rounded-xl border border-dashed border-[#ebd9e0] bg-white p-10 text-center text-sm text-[#9c9487]">No announcements match your search.</div>}</div>
+      <div className="flex items-center gap-2 rounded-xl border border-[#e7e0d5] bg-[#f8f4ed] p-4 text-xs leading-5 text-[#81745f]"><BellRing className="size-4 shrink-0" /> Important academic notices should always be verified through the official university department or Controller of Examinations.</div>
+    </div>
+  );
+}
